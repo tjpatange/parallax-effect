@@ -6,7 +6,7 @@ import {
     Renderer,
     Renderer2
 } from '@angular/core';
-import { Config } from './app.component';
+import { ParallaxConfig } from './parallaxConfig';
 @Directive({
     selector: '[appParallax]',
     // tslint:disable-next-line:use-host-property-decorator
@@ -15,7 +15,7 @@ import { Config } from './app.component';
     }
 })
 export class ParallaxDirective {
-    @Input() config: Config;
+    @Input() config: ParallaxConfig;
   fabToHide;
   oldscrollTop = 0;
 
@@ -25,13 +25,6 @@ export class ParallaxDirective {
   pCssVal = '';
   cssValArray;
   constructor(private elementRef: ElementRef, private renderer: Renderer) {
-  }
-  // tslint:disable-next-line:use-life-cycle-interface
-  ngAfterViewInit() {
-    // this.fabToHide = document.getElementsByClassName('parallax')[0];
-    if (this.cssKey === '' ) {return; }
-    // this.renderer.setElementStyle(this.elementRef, this.cssKey, this.config.init + 'px');
-    // this.elementRef.nativeElement.style.setProperty(this.cssKey, this.config.init + 'px');
   }
   @HostListener('window:scroll', ['$event']) onWindowScroll(e) {
    this.onContentScroll(e);
@@ -48,7 +41,6 @@ export class ParallaxDirective {
     this.config.ratio = this.config.ratio ? +this.config.ratio : 1.1;
     this.config.init = this.config.init ? +this.config.init : 0;
     let resultVal;
-    // this.renderer.setStyle(this.elementRef.nativeElement, 'background', 'skyblue');
     const calcVal = window.pageYOffset * this.config.ratio + this.config.init;
 
     if (this.isSpecialVal) {
@@ -57,8 +49,6 @@ export class ParallaxDirective {
       resultVal = calcVal + 'px';
     }
     if (this.cssKey === '' ) {return; }
-    console.log(this.cssKey + ':' + resultVal);
-    // this.renderer.setElementStyle(this.elementRef, this.cssKey, resultVal);
     this.elementRef.nativeElement.style.setProperty(this.cssKey, resultVal);
   }
 
